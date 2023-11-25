@@ -1,7 +1,7 @@
-<%@ page import="com.example.webapphr2.Beans.Employee" %>
+<%@ page import="com.example.labfinal.Beans.Usuario" %>
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <% String currentPage = request.getParameter("currentPage"); %>
-<jsp:useBean id="usuarioLogueado" scope="session" type="Employee" class="com.example.webapphr2.Beans.Employee" />
+<jsp:useBean id="usuarioLogueado" scope="session" type="com.example.labfinal.Beans.Usuario" class="com.example.labfinal.Beans.Usuario" />
 
 <nav class="navbar navbar-expand-md navbar-light bg-light">
     <div class="container-fluid">
@@ -12,37 +12,28 @@
         </button>
         <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
             <ul class="navbar-nav">
+
+                <% if(usuarioLogueado.getRol().getIdrol() == 3){ %>
                 <li class="nav-item">
-                    <a class="nav-link <%=currentPage.equals("emp") ? "active" : ""%>"
-                       href="<%=request.getContextPath()%>/EmployeeServlet">
-                        Employees
+
+                    <a class="nav-link <%=currentPage.equals("cursos") ? "active" : ""%>"
+                       href="<%=request.getContextPath()%>/DecanoServlet?action=listar_cursos">
+                        Cursos
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link <%=currentPage.equals("job") ? "active" : ""%>"
-                       href="<%=request.getContextPath()%>/JobServlet">
-                        Jobs
+                    <a class="nav-link <%=currentPage.equals("docentes") ? "active" : ""%>"
+                       href="<%=request.getContextPath()%>/DecanoServlet?action=listar_docentes">
+                        Docentes
                     </a>
                 </li>
+
                 <li class="nav-item">
-                    <a class="nav-link <%=currentPage.equals("stats") ? "active" : ""%>"
-                       href="<%=request.getContextPath()%>/StatServlet">
-                        Stats
-                    </a>
+                    <a class="nav-link disabled"><%=usuarioLogueado.getNombre()%></a>
                 </li>
+
                 <li class="nav-item">
-                    <% if(usuarioLogueado.getEmployeeId() == 0){ %>
-                    <a class="nav-link" style="text-decoration: underline;color: #0d6efd;"
-                       href="<%=request.getContextPath()%>/LoginServlet">
-                        (Iniciar sesión)
-                    </a>
-                    <% }else{ %>
-                    <a class="nav-link disabled"><%=usuarioLogueado.getFirstName() + " " + usuarioLogueado.getLastName()%></a>
-                    <% } %>
-                </li>
-                <% if(usuarioLogueado.getEmployeeId() != 0){ %>
-                <li class="nav-item">
-                    <a class="nav-link" style="text-decoration: underline;color: #0d6efd;" href="<%=request.getContextPath()%>/LoginServlet?a=lo">(Cerrar sesión)</a>
+                    <a class="nav-link" style="text-decoration: underline;color: #0d6efd;" href="<%=request.getContextPath()%>/SesionServlet?a=lo">(Cerrar sesión)</a>
                 </li>
                 <% } %>
             </ul>

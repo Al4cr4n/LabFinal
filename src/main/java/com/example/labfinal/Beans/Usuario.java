@@ -10,6 +10,7 @@ public class Usuario {
     private int cantidad_ingresos;
     private String fecha_registro;
     private String fecha_edicion;
+    private Curso_Has_Docente curso_has_docente;
 
     public int getIdusuario() {
         return idusuario;
@@ -81,5 +82,13 @@ public class Usuario {
 
     public void setFecha_edicion(String fecha_edicion) {
         this.fecha_edicion = fecha_edicion;
+    }
+
+    public Curso_Has_Docente getCurso_has_docente() {
+        return curso_has_docente;
+    }
+
+    public void setCurso_has_docente(Curso_Has_Docente curso_has_docente) {
+        this.curso_has_docente = curso_has_docente;
     }
 }

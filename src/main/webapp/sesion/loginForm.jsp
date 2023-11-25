@@ -4,7 +4,7 @@
 <head>
 
     <title>Login</title>
-    <jsp:include page="./includes/headCss.jsp"/>
+    <jsp:include page="../includes/headCss.jsp"/>
     <style>
         .bd-placeholder-img {
             font-size: 1.125rem;
@@ -87,7 +87,7 @@
 </head>
 <body class="d-flex align-items-center py-4 bg-body-tertiary">
 <main class="form-signin w-100 m-auto">
-    <form method="post" action="<%=request.getContextPath()%>/SesionServlet">
+    <form method="post" action="<%=request.getContextPath()%>/SesionServlet?action=inicio_sesion">
         <h1 class="h3 mb-3 fw-normal">Ingreso al sistema</h1>
         <% if (request.getAttribute("err") != null) {%>
         <div class="alert alert-danger" role="alert"><%=request.getAttribute("err")%>
@@ -106,7 +106,7 @@
         <button class="btn btn-primary w-100 py-2" type="submit">Ingresar</button>
     </form>
 </main>
-<jsp:include page="./includes/footer.jsp"/>
+<jsp:include page="../includes/footer.jsp"/>
 </body>
 </html>
 
