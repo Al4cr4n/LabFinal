@@ -1,7 +1,10 @@
 <%@page import="java.util.ArrayList" %>
 <%@ page import="com.example.labfinal.Beans.Usuario" %>
+<%@ page import="com.example.labfinal.Beans.Curso" %>
+<%@ page import="com.example.labfinal.Beans.Evaluaciones" %>
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
-<jsp:useBean id="listaDocentesOficial" type="java.util.ArrayList<com.example.labfinal.Beans.Usuario>" scope="request"/>
+<jsp:useBean id="listaCursosOficial" type="java.util.ArrayList<com.example.labfinal.Beans.Curso>" scope="request"/>
+<jsp:useBean id="listaEvaluaciones" type="java.util.ArrayList<com.example.labfinal.Beans.Evaluaciones>" scope="request"/>
 
 <jsp:useBean id="textoBusqueda" scope="request" type="java.lang.String" class="java.lang.String"/>
 <jsp:useBean id="usuariologueado" class="com.example.labfinal.Beans.Usuario" type="Usuario" scope="session" />
@@ -14,15 +17,15 @@
 <body>
 <div class='container'>
     <jsp:include page="../includes/navbar.jsp">
-        <jsp:param name="currentPage" value="docentes"/>
+        <jsp:param name="currentPage" value="cursos"/>
     </jsp:include>
     <div class="row mb-5 mt-4">
         <div class="col-md-7">
-            <h1>Lista de Docentes</h1>
+            <h1>Lista de Cursos</h1>
         </div>
         <div class="col-md-5 col-lg-4 ms-auto my-auto text-md-end">
             <a href="<%= request.getContextPath()%>/DecanoServlet?action=agregar" class="btn btn-primary">Agregar
-                nuevo Docente </a>
+                nuevo Curso </a>
         </div>
     </div>
     <% if (request.getParameter("msg") != null) {%>
@@ -49,9 +52,8 @@
         <thead>
         <tr>
             <th>#</th>
-            <th>Docente</th>
-            <th>Email</th>
-            <th>Curso Asignado</th>
+            <th>Curso</th>
+            <th>Codigo</th>
             <th></th>
             <th></th>
 
@@ -60,33 +62,31 @@
         <tbody>
         <%
             int i = 1;
-            for (Usuario docente : listaDocentesOficial) {
+            for (Curso curso : listaCursosOficial) {
 
         %>
         <tr>
             <td><%= i%>
             </td>
-            <td><%=docente.getNombre()%>
+            <td><%=curso.getNombre()%>
             </td>
-            <td><%=docente.getCorreo()%>
-            </td>
-            <td><%=docente.getCurso_has_docente().getCurso().getNombre() == null ? "--Sin Asignar--" : docente.getCurso_has_docente().getCurso().getNombre()%>
+            <td><%=curso.getCodigo()%>
             </td>
             <td>
-                <a href="<%=request.getContextPath()%>/DecanoServlet?action=editar&id=<%=docente.getIdusuario()%>"
+                <a href="<%=request.getContextPath()%>/DecanoServlet?action=editar&id=<%=curso.getIdcurso()%>"
                    type="button" class="btn btn-primary">
                     <i class="bi bi-pencil-square"></i>
                 </a>
-            </td>
-            <% if(docente.getCurso_has_docente().getCurso().getFacultad().getIdfacultad()==0){%>
+            </td>%
+
             <td>
                 <a onclick="return confirm('¿Estas seguro de borrar?');"
-                   href="<%=request.getContextPath()%>/DecanoServlet?action=borrar&id=<%=docente.getIdusuario()%>"
+                   href="<%=request.getContextPath()%>/DecanoServlet?action=borrar&id=<%=curso.getIdcurso()%>"
                    type="button" class="btn btn-danger">
                     <i class="bi bi-trash"></i>
                 </a>
             </td>
-            <%}%>
+
         </tr>
         <%
                 i++;
