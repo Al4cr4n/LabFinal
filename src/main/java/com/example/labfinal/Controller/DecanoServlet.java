@@ -1,5 +1,6 @@
 package com.example.labfinal.Controller;
 
+import com.example.labfinal.Beans.Curso_Has_Docente;
 import com.example.labfinal.Beans.Usuario;
 import com.example.labfinal.Daos.DecanoDao;
 import jakarta.servlet.*;
@@ -20,28 +21,41 @@ public class DecanoServlet extends HttpServlet {
         DecanoDao decanoDao = new DecanoDao();
         //Datos de sesión:
         //DelegadoGeneral delegadoGeneral = (DelegadoGeneral) request.getSession().getAttribute("usuariologueado");
-
+        Usuario decano = (Usuario) request.getSession().getAttribute("usuariologueado");
+        int idDecano= decano.getIdusuario();
+        Usuario decanoActualizado= decanoDao.obtenerIdFacultad(idDecano);
+        int idFacultadDecano = decanoActualizado.getFacultad_has_decano().getFacultad().getIdfacultad();
+        //tengo que tener su idfalcutad o asociarlo
+        System.out.println("Este es el ID de la facultad del decano : "+idFacultadDecano);
+        System.out.println("Este es el nombre del decano: "+ decano.getNombre());
         switch (action) {
             case "lista":
 
                 ArrayList<Usuario> listaDocentes = decanoDao.listarDocentes();
-                ArrayList<Usuario> listaDocentesConCurso = new ArrayList<>();
-                ArrayList<Usuario> listaDocentesSinCurso = new ArrayList<>();
-
-                // Iterar a través de la lista usando un bucle for each
-                for (Usuario docente : listaDocentes) {
-                    // Acceder a cada miembro del objeto Docente
-                    int idDocente = docente.getIdusuario();
-                    boolean validarDocenteCursoAsignado= decanoDao.validarDocente(idDocente);
-                    if(validarDocenteCursoAsignado){
-                        listaDocentesConCurso.add(docente);
+                ArrayList<Usuario> listaDocentesOficial = new ArrayList<>();
+                ArrayList<Usuario> listaDocentesConFacultad = new ArrayList<>();
+                ArrayList<Usuario> listaDocentesSinFacultadSinCursoAsignado = new ArrayList<>();
+                for (Usuario docenteFacu : listaDocentes){
+                    System.out.println("Nombres de los docentes: "+ docenteFacu.getNombre());
+                    int idFacultadDocente = docenteFacu.getCurso_has_docente().getCurso().getFacultad().getIdfacultad();
+                    System.out.println("Id de la facultad del docente: " + idFacultadDocente);
+                    if (idFacultadDecano == idFacultadDocente){
+                        listaDocentesOficial.add(docenteFacu);
+                        //listaDocentesConFacultad.add(docenteFacu);
+                        System.out.println("Encontramos un docente que pertecene a la facultad asignada al Decano\n");
                     }else {
-                        listaDocentesSinCurso.add(docente);
+                        if(idFacultadDocente==0) {
+                            listaDocentesOficial.add(docenteFacu);
+                            //listaDocentesSinFacultadSinCursoAsignado.add(docenteFacu);
+                            System.out.println("Encontramos un docente sin facultad y sin curso asignado\n");
+                        }
                     }
+
                 }
-                request.setAttribute("listaDocentes", listaDocentes);
-                request.setAttribute("listaDocentesConCurso", listaDocentesConCurso);
-                request.setAttribute("listaDocentesSinCurso", listaDocentesSinCurso);
+
+                request.setAttribute("listaDocentesOficial", listaDocentesOficial);
+                //request.setAttribute("listaDocentesConFacultad", listaDocentesConFacultad);
+                //request.setAttribute("listaDocentesSinFacultadSinCursoAsignado", listaDocentesSinFacultadSinCursoAsignado);
                 view = request.getRequestDispatcher("decano/listaDocentes.jsp");
                 view.forward(request, response);
                 break;
@@ -114,7 +128,7 @@ public class DecanoServlet extends HttpServlet {
 
                  */
             default:
-                response.sendRedirect("EmployeeServlet");
+                response.sendRedirect("DecanoServlet");
         }
     }
 

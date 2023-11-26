@@ -1,11 +1,11 @@
 <%@ page import="com.example.labfinal.Beans.Usuario" %>
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <% String currentPage = request.getParameter("currentPage"); %>
-<jsp:useBean id="usuarioLogueado" scope="session" type="com.example.labfinal.Beans.Usuario" class="com.example.labfinal.Beans.Usuario" />
+<jsp:useBean id="usuariologueado" scope="session" type="com.example.labfinal.Beans.Usuario" class="com.example.labfinal.Beans.Usuario" />
 
 <nav class="navbar navbar-expand-md navbar-light bg-light">
     <div class="container-fluid">
-        <a class="navbar-brand" href="<%=request.getContextPath()%>">Gestión HR</a>
+        <a class="navbar-brand" href="<%=request.getContextPath()%>">Gestión Laboratorio Final</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -13,7 +13,7 @@
         <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
             <ul class="navbar-nav">
 
-                <% if(usuarioLogueado.getRol().getIdrol() == 3){ %>
+                <% if(usuariologueado.getRol().getIdrol() == 3){ %>
                 <li class="nav-item">
 
                     <a class="nav-link <%=currentPage.equals("cursos") ? "active" : ""%>"
@@ -29,7 +29,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link disabled"><%=usuarioLogueado.getNombre()%></a>
+                    <a class="nav-link disabled"><%=usuariologueado.getNombre()%></a>
                 </li>
 
                 <li class="nav-item">

@@ -11,6 +11,7 @@ public class Usuario {
     private String fecha_registro;
     private String fecha_edicion;
     private Curso_Has_Docente curso_has_docente;
+    private Facultad_Has_Decano facultad_has_decano;
 
     public int getIdusuario() {
         return idusuario;
@@ -90,5 +91,13 @@ public class Usuario {
 
     public void setCurso_has_docente(Curso_Has_Docente curso_has_docente) {
         this.curso_has_docente = curso_has_docente;
+    }
+
+    public Facultad_Has_Decano getFacultad_has_decano() {
+        return facultad_has_decano;
+    }
+
+    public void setFacultad_has_decano(Facultad_Has_Decano facultad_has_decano) {
+        this.facultad_has_decano = facultad_has_decano;
     }
 }

@@ -1,5 +1,6 @@
 package com.example.labfinal.Daos;
 
+import com.example.labfinal.Beans.Facultad;
 import com.example.labfinal.Beans.Facultad_Has_Decano;
 import com.example.labfinal.Beans.Rol;
 import com.example.labfinal.Beans.Usuario;
@@ -90,7 +91,24 @@ public class UsuarioDao extends DaoBase{
         Usuario decano = new Usuario();
 
 
-        String sql = "select * from usuario where correo = ?";
+        String sql = "\tSELECT\n" +
+                "\t\tu.idusuario,\n" +
+                "\t\tu.nombre AS nombre_usuario,\n" +
+                "\t\tu.correo,\n" +
+                "\t\tu.ultimo_ingreso,\n" +
+                "\t\tu.cantidad_ingresos,\n" +
+                "\t\tu.fecha_registro,\n" +
+                "\t\tu.fecha_edicion,\n" +
+                "        u.idrol,        \n" +
+                "        c.idfacultad,\n" +
+                "\t\tc.nombre AS nombre_curso\n" +
+                "        \n" +
+                "\tFROM\n" +
+                "\t\tlab_9.usuario u\n" +
+                "\tleft join\n" +
+                "\t\tlab_9.curso_has_docente cd ON u.idusuario = cd.iddocente\n" +
+                "\tleft join\n" +
+                "\t\tlab_9.curso c ON cd.idcurso = c.idcurso where idrol=3 and u.correo = ?";
 
         try (Connection conn = getConection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -98,19 +116,21 @@ public class UsuarioDao extends DaoBase{
             pstmt.setString(1, correo);
 
             try (ResultSet rs = pstmt.executeQuery()) {
-
+                System.out.println("No Entramos");
                 if (rs.next()) {
-                    decano.setIdusuario(rs.getInt("idusuario"));
-                    decano.setNombre(rs.getString("nombre"));
-                    decano.setCorreo(rs.getString("correo"));
-                    decano.setUltimo_ingreso(rs.getString("ultimo_ingreso"));
-                    decano.setCantidad_ingresos(rs.getInt("cantidad_ingresos"));
-                    decano.setFecha_registro(rs.getString("fecha_registro"));
-                    decano.setFecha_edicion(rs.getString("fecha_edicion"));
+                    System.out.println("Entramos");
+                    decano.setIdusuario(rs.getInt(1));
+                    decano.setNombre(rs.getString(2));
+                    decano.setCorreo(rs.getString(3));
+                    decano.setUltimo_ingreso(rs.getString(4));
+                    decano.setCantidad_ingresos(rs.getInt(5));
+                    decano.setFecha_registro(rs.getString(6));
+                    decano.setFecha_edicion(rs.getString(7));
 
                     Rol rol = new Rol();
-                    rol.setIdrol(rs.getInt("idrol"));
+                    rol.setIdrol(rs.getInt(8));
                     decano.setRol(rol);
+
                 }
             }
         } catch (SQLException e) {

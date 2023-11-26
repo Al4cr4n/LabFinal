@@ -1,11 +1,10 @@
 <%@page import="java.util.ArrayList" %>
 <%@ page import="com.example.labfinal.Beans.Usuario" %>
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
-<jsp:useBean id="listaDocentesConCurso" type="java.util.ArrayList<com.example.labfinal.Beans.Usuario>" scope="request"/>
-<jsp:useBean id="listaDocentesSinCurso" type="java.util.ArrayList<com.example.labfinal.Beans.Usuario>" scope="request"/>
-<jsp:useBean id="listaDocentes" type="java.util.ArrayList<com.example.labfinal.Beans.Usuario>" scope="request"/>
+<jsp:useBean id="listaDocentesOficial" type="java.util.ArrayList<com.example.labfinal.Beans.Usuario>" scope="request"/>
+
 <jsp:useBean id="textoBusqueda" scope="request" type="java.lang.String" class="java.lang.String"/>
-<jsp:useBean id="usuarioLogueado" class="com.example.labfinal.Beans.Usuario" type="Usuario" scope="session" />
+<jsp:useBean id="usuariologueado" class="com.example.labfinal.Beans.Usuario" type="Usuario" scope="session" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -52,9 +51,8 @@
             <th>#</th>
             <th>Docente</th>
             <th>Email</th>
-            <th>Curso</th>
+            <th>Curso Asignado</th>
             <th></th>
-
             <th></th>
 
         </tr>
@@ -62,7 +60,8 @@
         <tbody>
         <%
             int i = 1;
-            for (Usuario docente : listaDocentes) {
+            for (Usuario docente : listaDocentesOficial) {
+
         %>
         <tr>
             <td><%= i%>
@@ -79,7 +78,7 @@
                     <i class="bi bi-pencil-square"></i>
                 </a>
             </td>
-
+            <% if(docente.getCurso_has_docente().getCurso().getFacultad().getIdfacultad()==0){%>
             <td>
                 <a onclick="return confirm('¿Estas seguro de borrar?');"
                    href="<%=request.getContextPath()%>/EmployeeServlet?action=borrar&id=<%=docente.getIdusuario()%>"
@@ -87,7 +86,7 @@
                     <i class="bi bi-trash"></i>
                 </a>
             </td>
-
+            <%}%>
         </tr>
         <%
                 i++;
